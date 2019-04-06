@@ -5,7 +5,7 @@ const debug = require('debug')('rsvpbot:logaplevel.js')
 // Import RSVP base
 const base = new Airtable({apiKey: process.env.AIRTABLE_TOKEN}).base(process.env.BASE_ID);
 
-module.exports = async function (faction, location, level, ap, operator) {
+module.exports = async function (faction, location, level, ap,walk, operator) {
   debug(faction, location, level, ap, walk,operator)
   // get agent record
   let agentsbase = await base(location).select({
