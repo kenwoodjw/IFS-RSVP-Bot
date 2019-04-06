@@ -190,7 +190,7 @@ telegrafbot.on('callback_query', async (ctx) => {
           ctx.update.callback_query.from.id,
           ctx.update.callback_query.message.message_id,
           null,
-          `请在消息框中写上 agent ${(ctx.update.callback_query.data.split(':'))[1]} 目前等级和 AP，以半角逗号 \`,\` 区隔。\n例如：\`16,40000000\`（大部分设备点击/长按示例可复制）`,
+          `请在消息框中写上 agent ${(ctx.update.callback_query.data.split(':'))[1]} 目前等级和 AP和走路距离，以半角逗号 \`,\` 区隔。\n例如：\`16,40000000\`（大部分设备点击/长按示例可复制）`,
           {
             parse_mode: 'Markdown'
           }
@@ -233,11 +233,11 @@ telegrafbot.on('callback_query', async (ctx) => {
   }
 })
 
-// recive AP/Level
+// recive AP/Level/walk
 telegrafbot.hears(new RegExp(/\d{1,2},\d{1,}/), async (ctx) => {
   try {
     let info = await API.checkpoc(ctx.message.from.id)
-    await API.logaplevel(info.faction, info.location, (ctx.message.text.split(','))[0], (ctx.message.text.split(','))[1], ctx.message.from.id)
+    await API.logaplevel(info.faction, info.location, (ctx.message.text.split(','))[0], (ctx.message.text.split(','))[1],ctx.message.text.split(','))[2],ctx.message.from.id)
     telegrambot.sendMessage(ctx.message.from.id, `签到/签退已完成。`, {parse_mode: "Markdown"})
   } catch (err) {
     telegrambot.sendMessage(ctx.message.from.id, err, {parse_mode: "Markdown"})
