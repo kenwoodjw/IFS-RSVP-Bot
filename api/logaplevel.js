@@ -5,8 +5,8 @@ const debug = require('debug')('rsvpbot:logaplevel.js')
 // Import RSVP base
 const base = new Airtable({apiKey: process.env.AIRTABLE_TOKEN}).base(process.env.BASE_ID);
 
-module.exports = async function (faction, location, level, ap,walk, operator) {
-  debug(faction, location, level, ap, walk,operator)
+module.exports = async function (faction, location, level, ap, walk, operator) {
+  debug(faction, location, level, ap, walk, operator)
   // get agent record
   let agentsbase = await base(location).select({
     view: "Grid view",
@@ -20,13 +20,13 @@ module.exports = async function (faction, location, level, ap,walk, operator) {
       data['已签到'] = true
       data['入场初始经验'] = parseInt(ap)
       data['入场初始等级'] = level
-      data['入场走路距离'] = walk
+      data['入场走路距离'] = parseInt(walk)
       data['正在登记经验值'] = null
       data['操作人'] = null
     }
     else if (record.get('正在登记经验值') === 2) {
       data['活动结束经验'] = parseInt(ap)
-      data['活动结束等级'] = level
+      data['活动结束等级'] = parseInt(walk)
       data['结束走路距离'] = walk
       data['正在登记经验值'] = null
       data['操作人'] = null
